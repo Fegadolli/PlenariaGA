@@ -1,0 +1,3010 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Conselho para criação de RPPNs</title>
+<style>
+:root{
+  --blue:#009edb;
+  --blue-dark:#006b99;
+  --ink:#171717;
+  --muted:#626262;
+  --line:#d9dfe3;
+  --soft:#f4f7f8;
+  --soft2:#eef6f9;
+  --ok:#26734d;
+  --bad:#a13a32;
+  --subjective:#6a4ba3
+}
+
+*{
+  box-sizing:border-box
+}
+
+html,body{
+  margin:0;
+  height:100%;
+  font-family:Arial,Helvetica,sans-serif;
+  background:#fff;
+  color:var(--ink);
+  overflow:hidden
+}
+
+button,select{
+  font:inherit
+}
+
+button{
+  cursor:pointer
+}
+
+.app{
+  height:100%;
+  display:flex;
+  flex-direction:column
+}
+
+.topbar{
+  height:50px;
+  background:#111;
+  color:#fff;
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  padding:0 20px;
+  font-size:.88rem
+}
+
+.brand{
+  font-weight:800;
+  letter-spacing:.03em
+}
+
+.top-actions{
+  display:flex;
+  gap:8px
+}
+
+.top-actions button{
+  border:1px solid rgba(255,255,255,.35);
+  background:transparent;
+  color:#fff;
+  padding:6px 10px;
+  border-radius:3px
+}
+
+.blue-line{
+  height:7px;
+  background:var(--blue)
+}
+
+.stage{
+  flex:1;
+  position:relative;
+  overflow:hidden
+}
+
+.slide{
+  position:absolute;
+  inset:0;
+  overflow:auto;
+  padding:4.2vh 5.5vw 86px;
+  opacity:0;
+  pointer-events:none;
+  transform:translateX(12px);
+  transition:.2s ease
+}
+
+.slide.active{
+  opacity:1;
+  pointer-events:auto;
+  transform:none
+}
+
+.inner{
+  max-width:1200px;
+  margin:0 auto;
+  min-height:100%;
+  display:flex;
+  flex-direction:column;
+  justify-content:center
+}
+
+.label{
+  font-size:.77rem;
+  text-transform:uppercase;
+  letter-spacing:.11em;
+  color:var(--blue-dark);
+  font-weight:800;
+  margin-bottom:12px
+}
+
+h1{
+  font-size:clamp(2.8rem,6.4vw,6rem);
+  line-height:.97;
+  margin:0 0 22px
+}
+
+h2{
+  font-size:clamp(1.9rem,4vw,3.7rem);
+  line-height:1.05;
+  margin:0 0 18px
+}
+
+h3{
+  font-size:1.08rem;
+  line-height:1.25;
+  margin:0 0 8px
+}
+
+p{
+  font-size:1rem;
+  line-height:1.47;
+  color:var(--muted);
+  max-width:980px
+}
+
+.lead{
+  font-size:clamp(1.12rem,1.8vw,1.4rem);
+  color:#333
+}
+
+.note{
+  font-size:.82rem;
+  color:#6b6b6b
+}
+
+.callout{
+  border-left:5px solid var(--blue);
+  background:#f7fbfd;
+  padding:15px 17px;
+  margin-top:16px;
+  max-width:1050px
+}
+
+.btn{
+  border:0;
+  background:var(--blue);
+  color:#fff;
+  padding:10px 15px;
+  font-weight:800;
+  border-radius:2px
+}
+
+.btn.alt{
+  background:#fff;
+  color:#111;
+  border:1px solid #999
+}
+
+.btn.ok{
+  background:var(--ok)
+}
+
+.bottomnav{
+  position:absolute;
+  bottom:0;
+  left:0;
+  right:0;
+  height:62px;
+  background:#fff;
+  border-top:1px solid var(--line);
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  padding:0 20px
+}
+
+.navbtn{
+  border:0;
+  background:none;
+  font-weight:800;
+  padding:10px
+}
+
+.counter-slide{
+  font-size:.88rem;
+  color:var(--muted)
+}
+
+.mirror{
+  width:min(400px,76vw);
+  aspect-ratio:1.8;
+  border-radius:50%;
+  border:8px solid #d9e7ed;
+  background:
+    radial-gradient(
+      ellipse at 50% 45%,
+      rgba(255,255,255,.92),
+      rgba(185,221,235,.66) 46%,
+      rgba(84,163,194,.45) 70%,
+      rgba(20,104,140,.5)
+    );
+  margin:16px auto
+}
+
+.prompt{
+  font-size:clamp(1.4rem,2.5vw,2.1rem);
+  line-height:1.25;
+  color:#222;
+  margin:13px 0;
+  font-weight:800;
+  max-width:960px
+}
+
+.council-grid{
+  display:grid;
+  grid-template-columns:repeat(3,1fr);
+  gap:13px;
+  margin-top:14px
+}
+
+.actor{
+  background:var(--soft);
+  border-top:5px solid var(--blue);
+  padding:15px
+}
+
+.actor.public{
+  border-top-color:#555
+}
+
+.actor.secretariat{
+  border-top-color:#111;
+  grid-column:1/-1
+}
+
+.actor .type{
+  font-size:.7rem;
+  text-transform:uppercase;
+  letter-spacing:.07em;
+  color:var(--blue-dark);
+  font-weight:800;
+  margin-bottom:5px
+}
+
+.actor p{
+  font-size:.87rem;
+  margin:0
+}
+
+.block-title{
+  margin-top:12px;
+  font-size:.78rem;
+  text-transform:uppercase;
+  letter-spacing:.09em;
+  font-weight:900
+}
+
+.objective{
+  color:var(--blue-dark)
+}
+
+.subjective-title{
+  color:var(--subjective)
+}
+
+.criteria-grid{
+  display:grid;
+  grid-template-columns:repeat(3,1fr);
+  gap:14px;
+  margin-top:9px
+}
+
+.criterion{
+  background:var(--soft);
+  border-top:5px solid var(--blue);
+  padding:16px
+}
+
+.criterion.subjective{
+  border-top-color:var(--subjective)
+}
+
+.criterion h3{
+  font-size:1rem
+}
+
+.thresholds{
+  font-size:.8rem;
+  line-height:1.47;
+  color:#444;
+  margin-top:9px
+}
+
+.voter-grid{
+  display:grid;
+  grid-template-columns:repeat(2,1fr);
+  gap:9px;
+  margin-top:15px
+}
+
+.voter-row{
+  border:1px solid var(--line);
+  padding:10px;
+  background:#fff;
+  display:grid;
+  grid-template-columns:1fr 1fr 1fr;
+  gap:8px;
+  align-items:end
+}
+
+.voter-name{
+  grid-column:1/-1;
+  font-weight:800;
+  font-size:.85rem
+}
+
+.voter-row label{
+  font-size:.7rem;
+  font-weight:800;
+  color:#555
+}
+
+.voter-row select{
+  width:100%;
+  margin-top:4px;
+  padding:7px;
+  border:1px solid #999;
+  background:#fff
+}
+
+.vote-summary{
+  display:grid;
+  grid-template-columns:repeat(2,1fr);
+  gap:12px;
+  margin-top:14px
+}
+
+.vote-block{
+  border:1px solid var(--line);
+  padding:12px;
+  background:#fff
+}
+
+.vote-cards{
+  display:grid;
+  grid-template-columns:repeat(3,1fr);
+  gap:7px
+}
+
+.vote-card{
+  padding:9px;
+  background:var(--soft2);
+  border:1px solid #c9e4ed;
+  text-align:center
+}
+
+.vote-card.subjective{
+  background:#f3effa;
+  border-color:#d7c9ef
+}
+
+.vote-card .n{
+  font-size:1.35rem;
+  font-weight:900;
+  color:var(--blue-dark)
+}
+
+.vote-card.subjective .n{
+  color:var(--subjective)
+}
+
+.vote-card.selected{
+  outline:3px solid var(--ok)
+}
+
+.chips{
+  display:flex;
+  gap:7px;
+  flex-wrap:wrap;
+  margin-top:10px
+}
+
+.chip{
+  padding:6px 9px;
+  background:var(--soft2);
+  border:1px solid #b8dce8;
+  font-size:.8rem;
+  font-weight:700
+}
+
+.chip.subjective{
+  background:#f3effa;
+  border-color:#d7c9ef;
+  color:#4d347b
+}
+
+.chip.off{
+  background:#f4f4f4;
+  border-color:#ddd;
+  color:#888;
+  text-decoration:line-through
+}
+
+.def-grid{
+  display:grid;
+  grid-template-columns:repeat(3,1fr);
+  gap:14px;
+  margin-top:16px
+}
+
+.def{
+  background:var(--soft);
+  border-top:5px solid var(--blue);
+  padding:16px
+}
+
+.def p{
+  font-size:.92rem;
+  margin:0
+}
+
+.tech-table-wrap{
+  overflow:auto;
+  border:1px solid var(--line);
+  margin-top:13px
+}
+
+table{
+  border-collapse:collapse;
+  width:100%;
+  min-width:700px
+}
+
+th,td{
+  padding:8px 9px;
+  border-bottom:1px solid var(--line);
+  text-align:left;
+  font-size:.84rem;
+  vertical-align:top
+}
+
+th{
+  background:#111;
+  color:#fff;
+  position:sticky;
+  top:0
+}
+
+td.num{
+  text-align:center;
+  font-weight:800
+}
+
+.tabs{
+  display:flex;
+  gap:6px;
+  flex-wrap:wrap;
+  margin:0 0 10px
+}
+
+.tabs button{
+  border:1px solid #aaa;
+  background:#fff;
+  padding:7px 9px;
+  font-weight:800;
+  font-size:.82rem
+}
+
+.tabs button.active{
+  background:#111;
+  color:#fff;
+  border-color:#111
+}
+
+.review-layout{
+  display:grid;
+  grid-template-columns:1.07fr .93fr;
+  gap:18px;
+  margin-top:12px
+}
+
+.proposal-card{
+  background:var(--soft);
+  padding:18px;
+  border-top:5px solid var(--blue)
+}
+
+.proposal-card h3{
+  font-size:1.4rem
+}
+
+.narrative{
+  font-size:1rem;
+  line-height:1.58;
+  color:#303030;
+  margin-top:12px
+}
+
+.score-panel{
+  border:1px solid var(--line);
+  padding:14px
+}
+
+.reference{
+  background:#fbfbfb;
+  border:1px solid var(--line);
+  padding:12px;
+  margin-bottom:12px
+}
+
+.reference-title{
+  font-size:.82rem;
+  font-weight:900;
+  margin-bottom:8px
+}
+
+.reference-item{
+  padding:7px 0;
+  border-top:1px solid #e3e3e3;
+  font-size:.78rem;
+  line-height:1.35
+}
+
+.reference-item:first-of-type{
+  border-top:0
+}
+
+.reference-item strong{
+  display:block;
+  margin-bottom:2px
+}
+
+.score-row{
+  display:grid;
+  grid-template-columns:1fr 95px 135px;
+  gap:8px;
+  align-items:center;
+  padding:10px 0;
+  border-top:1px solid var(--line)
+}
+
+.score-name{
+  font-size:.84rem;
+  font-weight:800
+}
+
+.score-sub{
+  font-size:.7rem;
+  color:#777;
+  margin-top:3px
+}
+
+.tech-score{
+  text-align:center
+}
+
+.tech-score .big{
+  font-size:1.35rem;
+  font-weight:800;
+  color:var(--blue-dark)
+}
+
+.score-row select{
+  width:100%;
+  padding:7px;
+  border:1px solid #999;
+  background:#fff
+}
+
+.total-box{
+  margin-top:12px;
+  padding:10px;
+  background:var(--soft2);
+  font-weight:800
+}
+
+.rank-grid{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:18px;
+  margin-top:14px
+}
+
+.rank-panel{
+  border-top:5px solid var(--blue);
+  padding-top:10px
+}
+
+.rank-list{
+  display:grid;
+  gap:7px
+}
+
+.rank-item{
+  display:grid;
+  grid-template-columns:40px 1fr auto;
+  gap:9px;
+  align-items:center;
+  padding:9px;
+  background:var(--soft)
+}
+
+.rank-pos{
+  width:32px;
+  height:32px;
+  background:#111;
+  color:#fff;
+  display:grid;
+  place-items:center;
+  font-weight:800
+}
+
+.rank-name{
+  font-weight:800
+}
+
+.rank-score{
+  font-weight:800;
+  color:var(--blue-dark)
+}
+
+.rank-item.top1{
+  background:#eaf6ee
+}
+
+.guiding{
+  font-size:clamp(1.4rem,2.5vw,2.15rem);
+  font-weight:800;
+  line-height:1.27;
+  margin:14px 0;
+  max-width:1100px
+}
+
+.final-select{
+  max-width:520px
+}
+
+.final-select label{
+  font-size:.8rem;
+  font-weight:800;
+  color:#444
+}
+
+.final-select select{
+  width:100%;
+  margin-top:6px;
+  padding:10px;
+  border:1px solid #999;
+  background:#fff
+}
+
+.final-result{
+  margin-top:14px;
+  padding:13px;
+  background:#eef7f1;
+  border-left:5px solid var(--ok);
+  display:none
+}
+
+.final-result.show{
+  display:block
+}
+
+@media(max-width:920px){
+  .council-grid,
+  .criteria-grid,
+  .voter-grid,
+  .vote-summary,
+  .def-grid,
+  .review-layout,
+  .rank-grid{
+    grid-template-columns:1fr
+  }
+
+  .actor.secretariat{
+    grid-column:auto
+  }
+
+  .voter-row{
+    grid-template-columns:1fr
+  }
+
+  .voter-name{
+    grid-column:auto
+  }
+
+  .score-row{
+    grid-template-columns:1fr 90px 120px
+  }
+
+  .slide{
+    padding:4vh 5vw 82px
+  }
+}
+
+@media(max-width:620px){
+  .score-row{
+    grid-template-columns:1fr
+  }
+
+  .tech-score{
+    text-align:left
+  }
+
+  .vote-cards{
+    grid-template-columns:1fr
+  }
+}
+</style>
+</head>
+
+<body>
+
+<div class="app">
+
+  <div class="topbar">
+    <div class="brand">
+      GESTÃO AMBIENTAL · CONSELHO PARA CRIAÇÃO DE RPPNs
+    </div>
+
+    <div class="top-actions">
+      <button id="clearBtn">
+        Limpar
+      </button>
+    </div>
+  </div>
+
+  <div class="blue-line"></div>
+
+  <main class="stage">
+
+    <!-- SLIDE 1 -->
+    <section class="slide active">
+      <div class="inner">
+
+        <div class="label">
+          Dinâmica integrada
+        </div>
+
+        <h1>
+          Da água à
+          <span style="color:var(--blue)">
+            decisão pública
+          </span>
+        </h1>
+
+        <p class="lead">
+          A turma define prioridades de planejamento e,
+          depois, atua como Conselho para escolher
+          <strong>uma</strong> entre três propriedades
+          candidatas à criação de RPPN com apoio do PSA.
+        </p>
+
+      </div>
+    </section>
+
+    <!-- SLIDE 2 -->
+    <section class="slide">
+      <div class="inner">
+
+        <div class="label">
+          Abertura · Plenária D’Água
+        </div>
+
+        <h2>
+          Quando conseguimos nos ver no rio?
+        </h2>
+
+        <div class="mirror"></div>
+
+        <div class="prompt">
+          Que interesses e responsabilidades aparecem
+          quando a água atravessa diferentes territórios?
+        </div>
+
+      </div>
+    </section>
+
+    <!-- SLIDE 3 -->
+    <section class="slide">
+      <div class="inner">
+
+        <div class="label">
+          Composição do Conselho
+        </div>
+
+        <h2>
+          Sete grupos, seis votos e uma Secretaria Executiva
+        </h2>
+
+        <div class="council-grid">
+
+          <div class="actor">
+            <div class="type">
+              Sociedade civil
+            </div>
+
+            <h3>
+              Empresa privada usuária de água
+            </h3>
+
+            <p>
+              Segurança hídrica, previsibilidade e benefícios
+              ambientais para usuários a jusante.
+            </p>
+          </div>
+
+          <div class="actor">
+            <div class="type">
+              Sociedade civil
+            </div>
+
+            <h3>
+              Conselho patronal do setor rural
+            </h3>
+
+            <p>
+              Segurança jurídica, esforço privado de conservação
+              e viabilidade para proprietários rurais.
+            </p>
+          </div>
+
+          <div class="actor">
+            <div class="type">
+              Sociedade civil
+            </div>
+
+            <h3>
+              Fórum de usuários de água e organizações socioambientais
+            </h3>
+
+            <p>
+              Benefícios coletivos, conservação estratégica
+              e distribuição territorial dos recursos.
+            </p>
+          </div>
+
+          <div class="actor public">
+            <div class="type">
+              Poder público
+            </div>
+
+            <h3>
+              Representação estadual
+            </h3>
+
+            <p>
+              Prioridades estaduais de conservação
+              e coerência técnica do instrumento.
+            </p>
+          </div>
+
+          <div class="actor public">
+            <div class="type">
+              Poder público
+            </div>
+
+            <h3>
+              Município de cabeceira e mananciais
+            </h3>
+
+            <p>
+              Proteção de nascentes, usos do solo
+              e benefícios produzidos a montante.
+            </p>
+          </div>
+
+          <div class="actor public">
+            <div class="type">
+              Poder público
+            </div>
+
+            <h3>
+              Município metropolitano a jusante
+            </h3>
+
+            <p>
+              Abastecimento, qualidade da água
+              e dependência de serviços ambientais
+              de outros territórios.
+            </p>
+          </div>
+
+          <div class="actor secretariat">
+
+            <div class="type">
+              Secretaria Executiva · sem voto
+            </div>
+
+            <h3>
+              Equipe aplicadora + alunos indicados
+            </h3>
+
+            <p>
+              Medeia, controla o tempo, registra decisões
+              e apoia a construção de consenso.
+            </p>
+
+          </div>
+
+        </div>
+
+      </div>
+    </section>
+
+    <!-- SLIDE 4 -->
+    <section
+      class="slide"
+      id="planningSlide">
+
+      <div class="inner">
+
+        <div class="label">
+          Planejamento · escolha dos critérios
+        </div>
+
+        <h2>
+          Que critérios devem orientar a seleção?
+        </h2>
+
+        <p class="lead">
+          Cada representação escolhe
+          <strong>um critério objetivo</strong>
+          e
+          <strong>um critério qualitativo</strong>.
+          O mais votado de cada grupo — ou os empatados
+          em primeiro lugar — será utilizado na seleção.
+        </p>
+
+        <div class="block-title objective">
+          Critérios objetivos
+        </div>
+
+        <div
+          class="criteria-grid"
+          id="objectiveCriteria">
+        </div>
+
+        <div class="block-title subjective-title">
+          Critérios qualitativos
+        </div>
+
+        <div
+          class="criteria-grid"
+          id="subjectiveCriteria">
+        </div>
+
+        <div
+          class="voter-grid"
+          id="voterGrid">
+        </div>
+
+        <div class="vote-summary">
+
+          <div class="vote-block">
+
+            <h3>
+              Votos · objetivos
+            </h3>
+
+            <div
+              class="vote-cards"
+              id="objectiveVotes">
+            </div>
+
+          </div>
+
+          <div class="vote-block">
+
+            <h3>
+              Votos · qualitativos
+            </h3>
+
+            <div
+              class="vote-cards"
+              id="subjectiveVotes">
+            </div>
+
+          </div>
+
+        </div>
+
+        <div style="margin-top:12px">
+
+          <button
+            class="btn"
+            id="consolidatePlan">
+
+            Consolidar votação
+
+          </button>
+
+        </div>
+
+        <div
+          class="chips"
+          id="criteriaChips">
+        </div>
+
+      </div>
+    </section>
+
+    <!-- SLIDE 5 -->
+    <section class="slide">
+
+      <div class="inner">
+
+        <div class="label">
+          Chamada para criação de RPPNs
+        </div>
+
+        <h2>
+          Três propostas candidatas. Uma será apoiada.
+        </h2>
+
+        <div class="def-grid">
+
+          <div class="def">
+
+            <h3>
+              Área candidata
+            </h3>
+
+            <p>
+              Propriedade privada cujo titular pretende
+              destinar parte do imóvel, em caráter permanente,
+              à futura criação de RPPN.
+            </p>
+
+          </div>
+
+          <div class="def">
+
+            <h3>
+              Apoio por PSA
+            </h3>
+
+            <p>
+              Na dinâmica, o recurso apoia a estruturação
+              da proposta e as ações iniciais necessárias
+              para viabilizar a conversão.
+            </p>
+
+          </div>
+
+          <div class="def">
+
+            <h3>
+              Seleção
+            </h3>
+
+            <p>
+              Somente os critérios priorizados na votação
+              anterior serão usados pelo Conselho
+              e pela recomendação técnica.
+            </p>
+
+          </div>
+
+        </div>
+
+        <div class="callout">
+
+          <strong>
+            Critérios priorizados:
+          </strong>
+
+          <div
+            class="chips"
+            id="editalCriteria">
+          </div>
+
+        </div>
+
+      </div>
+    </section>
+
+    <!-- SLIDE 6 -->
+    <section class="slide">
+
+      <div class="inner">
+
+        <div class="label">
+          Fundação Florestal · recomendação técnica
+        </div>
+
+        <h2>
+          Parecer técnico sobre as três propostas
+        </h2>
+
+        <p class="lead">
+          A recomendação técnica considera exclusivamente
+          os critérios que o Conselho priorizou
+          no planejamento.
+        </p>
+
+        <div class="tech-table-wrap">
+
+          <table>
+
+            <thead>
+              <tr id="technicalHead"></tr>
+            </thead>
+
+            <tbody id="technicalBody">
+            </tbody>
+
+          </table>
+
+        </div>
+
+        <div class="callout">
+
+          <strong>
+            Importante:
+          </strong>
+
+          nos critérios qualitativos,
+          o parecer expressa uma interpretação técnica possível.
+          O Conselho pode atribuir outra nota,
+          desde que fundamente sua leitura
+          a partir da descrição da proposta.
+
+        </div>
+
+      </div>
+    </section>
+
+    <!-- SLIDE 7 -->
+    <section class="slide">
+
+      <div class="inner">
+
+        <div class="label">
+          Deliberação do Conselho
+        </div>
+
+        <h2>
+          Análise proposta por proposta
+        </h2>
+
+        <div
+          class="tabs"
+          id="candidateTabs">
+        </div>
+
+        <div class="review-layout">
+
+          <div class="proposal-card">
+
+            <h3 id="proposalName">
+            </h3>
+
+            <p
+              class="narrative"
+              id="proposalNarrative">
+            </p>
+
+          </div>
+
+          <div class="score-panel">
+
+            <div class="reference">
+
+              <div class="reference-title">
+                REFERENCIAL PARA ATRIBUIÇÃO DAS NOTAS
+              </div>
+
+              <div id="referenceContent">
+              </div>
+
+            </div>
+
+            <h3>
+              Validação pelo Conselho
+            </h3>
+
+            <div id="scoreRows">
+            </div>
+
+            <div style="margin-top:10px">
+
+              <button
+                class="btn"
+                id="keepTechnical">
+
+                Manter parecer técnico
+
+              </button>
+
+            </div>
+
+            <div
+              class="total-box"
+              id="projectTotal">
+            </div>
+
+          </div>
+
+        </div>
+
+      </div>
+    </section>
+
+    <!-- SLIDE 8 -->
+    <section class="slide">
+
+      <div class="inner">
+
+        <div class="label">
+          Resultado
+        </div>
+
+        <h2>
+          Ranking do Conselho
+        </h2>
+
+        <div class="rank-grid">
+
+          <div class="rank-panel">
+
+            <h3>
+              Classificação após a deliberação
+            </h3>
+
+            <div
+              class="rank-list"
+              id="councilRanking">
+            </div>
+
+          </div>
+
+          <div class="rank-panel">
+
+            <h3>
+              Recomendação técnica
+            </h3>
+
+            <div
+              class="rank-list"
+              id="technicalRanking">
+            </div>
+
+          </div>
+
+        </div>
+
+      </div>
+    </section>
+
+    <!-- SLIDE 9 -->
+    <section class="slide">
+
+      <div class="inner">
+
+        <div class="label">
+          Deliberação final
+        </div>
+
+        <h2>
+          Qual proposta receberá o PSA?
+        </h2>
+
+        <div class="guiding">
+
+          O Conselho concorda com a recomendação técnica?
+          Em que interpretação das informações houve divergência?
+          Qual propriedade deverá receber o investimento
+          para conversão em RPPN?
+
+        </div>
+
+        <div class="final-select">
+
+          <label>
+
+            Proposta selecionada
+
+            <select id="finalProject">
+            </select>
+
+          </label>
+
+        </div>
+
+        <div style="margin-top:12px">
+
+          <button
+            class="btn ok"
+            id="registerFinal">
+
+            Registrar decisão final
+
+          </button>
+
+        </div>
+
+        <div
+          class="final-result"
+          id="finalResult">
+        </div>
+
+      </div>
+    </section>
+
+    <!-- SLIDE 10 -->
+    <section class="slide">
+
+      <div
+        class="inner"
+        style="text-align:center;align-items:center">
+
+        <div class="label">
+          Conselho para criação de RPPNs
+        </div>
+
+        <h2>
+          agradecemos pela participação
+        </h2>
+
+      </div>
+
+    </section>
+
+    <div class="bottomnav">
+
+      <button
+        class="navbtn"
+        id="prevBtn">
+
+        ← Anterior
+
+      </button>
+
+      <div
+        class="counter-slide"
+        id="slideCounter">
+
+        1 / 10
+
+      </div>
+
+      <button
+        class="navbtn"
+        id="nextBtn">
+
+        Próximo →
+
+      </button>
+
+    </div>
+
+  </main>
+
+</div>
+
+<script>
+
+const prefix =
+  "rppn_3propostas_v1_";
+
+const criteria = {
+
+  uc:{
+    code:"A",
+    label:"Prioridade territorial para criação de Unidade de Conservação de Proteção Integral",
+    short:"Prioridade territorial",
+    help:"1 = grau de prioridade > 80% · 0,5 = entre 25% e 80% · 0 = abaixo de 25%"
+  },
+
+  conn:{
+    code:"B",
+    label:"Prioridade para conectividade entre fragmentos florestais",
+    short:"Conectividade",
+    help:"1 = grau de prioridade > 6 · 0,5 = grau entre 3 e 5 · 0 = demais situações"
+  },
+
+  pct:{
+    code:"C",
+    label:"Proporção da propriedade proposta para conversão em RPPN",
+    short:"% proposto",
+    help:"1 = mais de 70% · 0,5 = entre 30% e 70% · 0 = abaixo de 30%"
+  },
+
+  collective:{
+    code:"D",
+    label:"Relevância socioambiental e externalidades positivas",
+    short:"Benefício coletivo",
+    help:"1 = benefícios coletivos claros e territorialmente relevantes · 0,5 = benefícios externos plausíveis, porém limitados/indiretos · 0 = benefícios predominantemente internos ou pouco demonstrados"
+  },
+
+  governance:{
+    code:"E",
+    label:"Exequibilidade institucional e arranjo de governança",
+    short:"Governança",
+    help:"1 = responsabilidades, capacidade e arranjo de implantação bem demonstrados · 0,5 = proposta plausível, mas com lacunas · 0 = arranjo de implementação pouco convincente"
+  },
+
+  add:{
+    code:"F",
+    label:"Adicionalidade e eficiência do investimento público",
+    short:"Adicionalidade",
+    help:"1 = apoio decisivo para viabilizar a conversão e ações iniciais · 0,5 = apoio amplia ou acelera algo parcialmente viável · 0 = a conversão tende a ocorrer mesmo sem o recurso ou a necessidade não foi demonstrada"
+  }
+
+};
+
+const objectiveKeys = [
+  "uc",
+  "conn",
+  "pct"
+];
+
+const subjectiveKeys = [
+  "collective",
+  "governance",
+  "add"
+];
+
+const voters = [
+
+  "Empresa privada usuária de água",
+
+  "Conselho patronal do setor rural",
+
+  "Fórum de usuários de água e organizações socioambientais",
+
+  "Representação estadual de meio ambiente",
+
+  "Município de cabeceira e mananciais",
+
+  "Município metropolitano a jusante"
+
+];
+
+const proposals = [
+
+  {
+    name:"Proposta Nascente do Cedro",
+
+    short:"Cedro",
+
+    base:
+      "Propriedade familiar situada em área rural de cabeceira, com nascentes e remanescentes de vegetação nativa. A família pretende instituir uma RPPN e solicita apoio para organizar a conversão da área e as primeiras ações de proteção.",
+
+    modules:{
+
+      uc:
+        "O mapeamento territorial utilizado pela equipe técnica indica que 92% da área proposta está inserida em zona classificada como de prioridade muito elevada para criação de unidades de conservação de proteção integral.",
+
+      conn:
+        "A área ocupa posição entre dois remanescentes florestais e recebeu grau 8 no mapeamento estadual de prioridade para conectividade, com possibilidade de consolidar continuidade de vegetação entre os fragmentos.",
+
+      pct:
+        "A família propõe converter 78% da propriedade em RPPN, mantendo a parcela restante para moradia e atividades produtivas de pequena escala.",
+
+      collective:
+        "As nascentes existentes na propriedade alimentam um curso d’água utilizado por moradores e pequenas atividades rurais a jusante. A proteção permanente da área também poderá reforçar a continuidade da vegetação na paisagem.",
+
+      governance:
+        "A família demonstra compromisso com a proposta, mas não possui equipe técnica própria. Uma organização socioambiental local se dispôs a apoiar parte da documentação, e a prefeitura sinalizou apoio técnico pontual, sem compromisso financeiro continuado.",
+
+      add:
+        "A família já realiza cuidados básicos na propriedade, porém relata não dispor de recursos para custear, no mesmo período, levantamento técnico, cercamento inicial e recuperação de um trecho degradado. Sem o apoio, a formalização da RPPN poderia ser adiada."
+
+    },
+
+    tech:{
+      uc:1,
+      conn:1,
+      pct:1,
+      collective:1,
+      governance:0.5,
+      add:1
+    }
+
+  },
+
+  {
+    name:"Proposta Fazenda Boa Vista",
+
+    short:"Boa Vista",
+
+    base:
+      "Grande propriedade pertencente a uma empresa do setor agroindustrial. A direção decidiu propor a criação de uma RPPN como parte de sua política ambiental corporativa e apresenta estrutura administrativa própria para conduzir o processo.",
+
+    modules:{
+
+      uc:
+        "O mapeamento territorial situa 55% da área proposta em faixa intermediária de prioridade para criação de unidades de conservação de proteção integral.",
+
+      conn:
+        "A propriedade contém remanescente florestal de grande extensão, mas a posição da área recebeu grau 5 no mapeamento de prioridade para conectividade entre fragmentos.",
+
+      pct:
+        "A empresa propõe converter 82% da propriedade em RPPN, deixando fora da reserva apenas a infraestrutura operacional e uma área produtiva residual.",
+
+      collective:
+        "A área proposta amplia a proteção de um remanescente expressivo, mas os usos de água imediatamente a jusante são predominantemente ligados às próprias propriedades privadas da região. A empresa argumenta que a conservação também produz benefícios paisagísticos e ecológicos mais amplos.",
+
+      governance:
+        "A empresa possui equipe ambiental, assessoria jurídica, geoprocessamento e orçamento anual destinado à gestão ambiental. O processo de criação da reserva já possui cronograma interno e responsáveis definidos.",
+
+      add:
+        "A criação da RPPN já consta da estratégia ambiental da empresa e há recursos próprios reservados para sua formalização. O PSA permitiria ampliar ações de restauração e monitoramento, mas a conversão da área provavelmente ocorreria mesmo sem o apoio."
+
+    },
+
+    tech:{
+      uc:0.5,
+      conn:0.5,
+      pct:1,
+      collective:0.5,
+      governance:1,
+      add:0
+    }
+
+  },
+
+  {
+    name:"Proposta Sítio Esperança",
+
+    short:"Esperança",
+
+    base:
+      "Pequena propriedade familiar localizada em território rural com baixa disponibilidade de recursos para investimentos ambientais. A família pretende converter parte do imóvel em RPPN e busca apoio para iniciar o processo formal e estruturar a proteção da área.",
+
+    modules:{
+
+      uc:
+        "O mapeamento territorial indica que 84% da área proposta está em zona de prioridade muito elevada para criação de unidades de conservação de proteção integral.",
+
+      conn:
+        "Apesar de possuir vegetação nativa e uma nascente, a área recebeu grau 2 no mapeamento estadual de prioridade para conectividade, pois os remanescentes mais próximos estão separados por áreas produtivas.",
+
+      pct:
+        "A família propõe converter 45% da propriedade em RPPN. A parcela restante continuará destinada à moradia e à produção agrícola familiar.",
+
+      collective:
+        "A nascente existente no sítio é utilizada indiretamente por propriedades vizinhas, e a família argumenta que a reserva ajudaria a evitar a degradação de um trecho vulnerável. A contribuição para conectividade regional, contudo, é limitada.",
+
+      governance:
+        "A família demonstra forte interesse e conhece bem o território, mas não dispõe de equipe técnica nem experiência com processos de criação de unidades de conservação. Uma associação rural se comprometeu a ajudar na mobilização e na busca de apoio técnico.",
+
+      add:
+        "A família informa que não consegue financiar sozinha a documentação, a delimitação da área e o cercamento inicial. Sem recurso externo, a intenção de criar a RPPN tende a permanecer sem prazo definido."
+
+    },
+
+    tech:{
+      uc:1,
+      conn:0,
+      pct:0.5,
+      collective:0.5,
+      governance:0.5,
+      add:1
+    }
+
+  }
+
+];
+
+const voteSelections =
+  voters.map(
+    (_,i)=>[
+      localStorage.getItem(
+        prefix+"obj_"+i
+      ) || "",
+
+      localStorage.getItem(
+        prefix+"sub_"+i
+      ) || ""
+    ]
+  );
+
+let selectedCriteria =
+  JSON.parse(
+    localStorage.getItem(
+      prefix+"selected"
+    )
+    ||
+    "[]"
+  );
+
+let confirmed =
+  localStorage.getItem(
+    prefix+"confirmed"
+  ) === "1";
+
+let currentCandidate = 0;
+
+const councilScores =
+  proposals.map(
+    (proposal,index)=>{
+
+      const scores = {};
+
+      Object
+        .keys(criteria)
+        .forEach(
+          key=>{
+
+            const saved =
+              localStorage.getItem(
+                prefix+
+                "score_"+
+                index+
+                "_"+
+                key
+              );
+
+            scores[key] =
+              saved === null
+                ? proposal.tech[key]
+                : Number(saved);
+
+          }
+        );
+
+      return scores;
+
+    }
+  );
+
+function renderCriterionCards(){
+
+  const objectiveContainer =
+    document.getElementById(
+      "objectiveCriteria"
+    );
+
+  const subjectiveContainer =
+    document.getElementById(
+      "subjectiveCriteria"
+    );
+
+  objectiveContainer.innerHTML = "";
+  subjectiveContainer.innerHTML = "";
+
+  objectiveKeys.forEach(
+    key=>{
+
+      const criterion =
+        criteria[key];
+
+      const card =
+        document.createElement(
+          "div"
+        );
+
+      card.className =
+        "criterion";
+
+      card.innerHTML = `
+
+        <h3>
+          ${criterion.code}.
+          ${criterion.label}
+        </h3>
+
+        <div class="thresholds">
+          ${criterion.help}
+        </div>
+      `;
+
+      objectiveContainer
+        .appendChild(card);
+
+    }
+  );
+
+  subjectiveKeys.forEach(
+    key=>{
+
+      const criterion =
+        criteria[key];
+
+      const card =
+        document.createElement(
+          "div"
+        );
+
+      card.className =
+        "criterion subjective";
+
+      card.innerHTML = `
+
+        <h3>
+          ${criterion.code}.
+          ${criterion.label}
+        </h3>
+
+        <div class="thresholds">
+          ${criterion.help}
+        </div>
+      `;
+
+      subjectiveContainer
+        .appendChild(card);
+
+    }
+  );
+
+}
+
+function optionHTML(
+  keys,
+  selected
+){
+
+  return (
+    '<option value="">Selecione</option>'
+    +
+    keys
+      .map(
+        key=>`
+
+          <option
+            value="${key}"
+            ${
+              selected===key
+                ? "selected"
+                : ""
+            }>
+
+            ${criteria[key].code}.
+            ${criteria[key].short}
+
+          </option>
+        `
+      )
+      .join("")
+  );
+
+}
+
+function renderVoters(){
+
+  const grid =
+    document.getElementById(
+      "voterGrid"
+    );
+
+  grid.innerHTML = "";
+
+  voters.forEach(
+    (name,index)=>{
+
+      const row =
+        document.createElement(
+          "div"
+        );
+
+      row.className =
+        "voter-row";
+
+      row.innerHTML = `
+
+        <div class="voter-name">
+          ${name}
+        </div>
+
+        <label>
+
+          Critério objetivo
+
+          <select class="objective-select">
+
+            ${
+              optionHTML(
+                objectiveKeys,
+                voteSelections[index][0]
+              )
+            }
+
+          </select>
+
+        </label>
+
+        <label>
+
+          Critério qualitativo
+
+          <select class="subjective-select">
+
+            ${
+              optionHTML(
+                subjectiveKeys,
+                voteSelections[index][1]
+              )
+            }
+
+          </select>
+
+        </label>
+      `;
+
+      row
+        .querySelector(
+          ".objective-select"
+        )
+        .onchange =
+          event=>{
+
+            voteSelections[index][0] =
+              event.target.value;
+
+            localStorage.setItem(
+              prefix+
+              "obj_"+
+              index,
+              event.target.value
+            );
+
+            confirmed = false;
+
+            localStorage.setItem(
+              prefix+"confirmed",
+              "0"
+            );
+
+            renderTallies();
+
+          };
+
+      row
+        .querySelector(
+          ".subjective-select"
+        )
+        .onchange =
+          event=>{
+
+            voteSelections[index][1] =
+              event.target.value;
+
+            localStorage.setItem(
+              prefix+
+              "sub_"+
+              index,
+              event.target.value
+            );
+
+            confirmed = false;
+
+            localStorage.setItem(
+              prefix+"confirmed",
+              "0"
+            );
+
+            renderTallies();
+
+          };
+
+      grid.appendChild(row);
+
+    }
+  );
+
+}
+
+function tally(
+  keys,
+  index
+){
+
+  const counts = {};
+
+  keys.forEach(
+    key=>{
+      counts[key] = 0;
+    }
+  );
+
+  voteSelections.forEach(
+    vote=>{
+
+      if(
+        vote[index]
+      ){
+        counts[
+          vote[index]
+        ]++;
+      }
+
+    }
+  );
+
+  return counts;
+
+}
+
+function winners(
+  counts
+){
+
+  const maximum =
+    Math.max(
+      ...Object.values(
+        counts
+      )
+    );
+
+  return Object
+    .keys(counts)
+    .filter(
+      key =>
+        counts[key]===maximum
+    );
+
+}
+
+function renderTallies(){
+
+  const objectiveTally =
+    tally(
+      objectiveKeys,
+      0
+    );
+
+  const subjectiveTally =
+    tally(
+      subjectiveKeys,
+      1
+    );
+
+  const objectiveBox =
+    document.getElementById(
+      "objectiveVotes"
+    );
+
+  const subjectiveBox =
+    document.getElementById(
+      "subjectiveVotes"
+    );
+
+  objectiveBox.innerHTML = "";
+  subjectiveBox.innerHTML = "";
+
+  objectiveKeys.forEach(
+    key=>{
+
+      const card =
+        document.createElement(
+          "div"
+        );
+
+      card.className =
+        "vote-card "+
+        (
+          selectedCriteria
+            .includes(key)
+            ? "selected"
+            : ""
+        );
+
+      card.innerHTML = `
+
+        <div class="n">
+          ${objectiveTally[key]}
+        </div>
+
+        <div>
+          ${criteria[key].code}.
+          ${criteria[key].short}
+        </div>
+      `;
+
+      objectiveBox
+        .appendChild(card);
+
+    }
+  );
+
+  subjectiveKeys.forEach(
+    key=>{
+
+      const card =
+        document.createElement(
+          "div"
+        );
+
+      card.className =
+        "vote-card subjective "+
+        (
+          selectedCriteria
+            .includes(key)
+            ? "selected"
+            : ""
+        );
+
+      card.innerHTML = `
+
+        <div class="n">
+          ${subjectiveTally[key]}
+        </div>
+
+        <div>
+          ${criteria[key].code}.
+          ${criteria[key].short}
+        </div>
+      `;
+
+      subjectiveBox
+        .appendChild(card);
+
+    }
+  );
+
+  updateCriteriaDisplays();
+
+}
+
+function consolidate(){
+
+  if(
+    voteSelections.some(
+      vote =>
+        !vote[0] ||
+        !vote[1]
+    )
+  ){
+
+    alert(
+      "Cada representação deve escolher um critério objetivo e um qualitativo."
+    );
+
+    return;
+
+  }
+
+  selectedCriteria = [
+
+    ...winners(
+      tally(
+        objectiveKeys,
+        0
+      )
+    ),
+
+    ...winners(
+      tally(
+        subjectiveKeys,
+        1
+      )
+    )
+
+  ];
+
+  confirmed = true;
+
+  localStorage.setItem(
+    prefix+"selected",
+    JSON.stringify(
+      selectedCriteria
+    )
+  );
+
+  localStorage.setItem(
+    prefix+"confirmed",
+    "1"
+  );
+
+  renderTallies();
+
+  updateAll();
+
+}
+
+function updateCriteriaDisplays(){
+
+  const html =
+    selectedCriteria
+      .map(
+        key=>`
+
+          <span
+            class="chip ${
+              criteria[key].code >= "D"
+                ? "subjective"
+                : ""
+            }">
+
+            ${criteria[key].code}.
+            ${criteria[key].short}
+
+          </span>
+        `
+      )
+      .join("");
+
+  document
+    .getElementById(
+      "criteriaChips"
+    )
+    .innerHTML =
+      html;
+
+  document
+    .getElementById(
+      "editalCriteria"
+    )
+    .innerHTML =
+      html;
+
+}
+
+function technicalTotal(
+  proposal
+){
+
+  return selectedCriteria
+    .reduce(
+      (
+        total,
+        key
+      ) =>
+        total +
+        proposal.tech[key],
+      0
+    );
+
+}
+
+function technicalRanking(){
+
+  return proposals
+    .map(
+      (
+        proposal,
+        index
+      )=>({
+
+        index:index,
+
+        name:proposal.name,
+
+        total:
+          technicalTotal(
+            proposal
+          ),
+
+        scores:
+          proposal.tech
+
+      })
+    )
+    .sort(
+      (
+        a,
+        b
+      )=>
+        b.total-a.total
+        ||
+        a.name.localeCompare(
+          b.name
+        )
+    );
+
+}
+
+function renderTechnicalTable(){
+
+  const head =
+    document.getElementById(
+      "technicalHead"
+    );
+
+  head.innerHTML =
+    "<th>Proposta</th>"
+    +
+    selectedCriteria
+      .map(
+        key=>`
+
+          <th>
+            ${criteria[key].code}.
+            ${criteria[key].short}
+          </th>
+        `
+      )
+      .join("")
+    +
+    "<th>Total</th>"
+    +
+    "<th>Posição</th>";
+
+  const ranking =
+    technicalRanking();
+
+  const positions =
+    new Map(
+      ranking.map(
+        (
+          item,
+          index
+        )=>[
+          item.index,
+          index+1
+        ]
+      )
+    );
+
+  const body =
+    document.getElementById(
+      "technicalBody"
+    );
+
+  body.innerHTML = "";
+
+  proposals.forEach(
+    (
+      proposal,
+      index
+    )=>{
+
+      const row =
+        document.createElement(
+          "tr"
+        );
+
+      row.innerHTML = `
+
+        <td>
+          <strong>
+            ${proposal.name}
+          </strong>
+        </td>
+
+        ${
+          selectedCriteria
+            .map(
+              key=>`
+
+                <td class="num">
+                  ${proposal.tech[key]}
+                </td>
+              `
+            )
+            .join("")
+        }
+
+        <td class="num">
+          ${
+            technicalTotal(
+              proposal
+            )
+          }
+        </td>
+
+        <td class="num">
+          ${positions.get(index)}º
+        </td>
+      `;
+
+      body.appendChild(row);
+
+    }
+  );
+
+}
+
+function buildNarrative(
+  proposal
+){
+
+  return [
+
+    proposal.base,
+
+    ...selectedCriteria
+      .map(
+        key =>
+          proposal.modules[key]
+      )
+
+  ]
+  .join(" ");
+
+}
+
+function renderReference(){
+
+  const box =
+    document.getElementById(
+      "referenceContent"
+    );
+
+  box.innerHTML = "";
+
+  selectedCriteria.forEach(
+    key=>{
+
+      const item =
+        document.createElement(
+          "div"
+        );
+
+      item.className =
+        "reference-item";
+
+      item.innerHTML = `
+
+        <strong>
+          ${criteria[key].code}.
+          ${criteria[key].label}
+        </strong>
+
+        ${criteria[key].help}
+      `;
+
+      box.appendChild(item);
+
+    }
+  );
+
+}
+
+function renderTabs(){
+
+  const tabs =
+    document.getElementById(
+      "candidateTabs"
+    );
+
+  tabs.innerHTML = "";
+
+  proposals.forEach(
+    (
+      proposal,
+      index
+    )=>{
+
+      const button =
+        document.createElement(
+          "button"
+        );
+
+      button.textContent =
+        proposal.short;
+
+      button.classList.toggle(
+        "active",
+        index===currentCandidate
+      );
+
+      button.onclick =
+        ()=>{
+
+          currentCandidate =
+            index;
+
+          renderTabs();
+
+          renderCandidate();
+
+        };
+
+      tabs.appendChild(button);
+
+    }
+  );
+
+}
+
+function renderCandidate(){
+
+  const proposal =
+    proposals[
+      currentCandidate
+    ];
+
+  document
+    .getElementById(
+      "proposalName"
+    )
+    .textContent =
+      proposal.name;
+
+  document
+    .getElementById(
+      "proposalNarrative"
+    )
+    .textContent =
+      buildNarrative(
+        proposal
+      );
+
+  renderReference();
+
+  const rows =
+    document.getElementById(
+      "scoreRows"
+    );
+
+  rows.innerHTML = "";
+
+  selectedCriteria.forEach(
+    key=>{
+
+      const criterion =
+        criteria[key];
+
+      const row =
+        document.createElement(
+          "div"
+        );
+
+      row.className =
+        "score-row";
+
+      row.innerHTML = `
+
+        <div>
+
+          <div class="score-name">
+
+            ${criterion.code}.
+            ${criterion.label}
+
+          </div>
+
+          <div class="score-sub">
+
+            ${
+              criterion.code >= "D"
+                ? "critério qualitativo"
+                : "critério objetivo"
+            }
+
+          </div>
+
+        </div>
+
+        <div class="tech-score">
+
+          <div class="note">
+            Parecer
+          </div>
+
+          <div class="big">
+            ${proposal.tech[key]}
+          </div>
+
+        </div>
+
+        <div>
+
+          <select>
+
+            ${
+              [
+                0,
+                0.5,
+                1
+              ]
+              .map(
+                value=>`
+
+                  <option
+                    value="${value}"
+                    ${
+                      councilScores[
+                        currentCandidate
+                      ][key]===value
+                        ? "selected"
+                        : ""
+                    }>
+
+                    ${value}
+
+                  </option>
+                `
+              )
+              .join("")
+            }
+
+          </select>
+
+        </div>
+      `;
+
+      row
+        .querySelector(
+          "select"
+        )
+        .onchange =
+          event=>{
+
+            councilScores[
+              currentCandidate
+            ][key] =
+              Number(
+                event.target.value
+              );
+
+            localStorage.setItem(
+              prefix+
+              "score_"+
+              currentCandidate+
+              "_"+
+              key,
+              event.target.value
+            );
+
+            renderProjectTotal();
+
+            renderRankings();
+
+          };
+
+      rows.appendChild(row);
+
+    }
+  );
+
+  renderProjectTotal();
+
+}
+
+function renderProjectTotal(){
+
+  const total =
+    selectedCriteria
+      .reduce(
+        (
+          sum,
+          key
+        ) =>
+          sum +
+          councilScores[
+            currentCandidate
+          ][key],
+        0
+      );
+
+  document
+    .getElementById(
+      "projectTotal"
+    )
+    .textContent =
+      `Pontuação do Conselho: ${total} / ${selectedCriteria.length}`;
+
+}
+
+document
+  .getElementById(
+    "keepTechnical"
+  )
+  .onclick =
+    ()=>{
+
+      selectedCriteria.forEach(
+        key=>{
+
+          councilScores[
+            currentCandidate
+          ][key] =
+            proposals[
+              currentCandidate
+            ].tech[key];
+
+          localStorage.setItem(
+            prefix+
+            "score_"+
+            currentCandidate+
+            "_"+
+            key,
+            proposals[
+              currentCandidate
+            ].tech[key]
+          );
+
+        }
+      );
+
+      renderCandidate();
+
+      renderRankings();
+
+    };
+
+function councilRanking(){
+
+  return proposals
+    .map(
+      (
+        proposal,
+        index
+      )=>({
+
+        index:index,
+
+        name:
+          proposal.name,
+
+        total:
+          selectedCriteria
+            .reduce(
+              (
+                sum,
+                key
+              ) =>
+                sum +
+                councilScores[
+                  index
+                ][key],
+              0
+            ),
+
+        scores:
+          councilScores[
+            index
+          ]
+
+      })
+    )
+    .sort(
+      (
+        a,
+        b
+      )=>
+        b.total-a.total
+        ||
+        a.name.localeCompare(
+          b.name
+        )
+    );
+
+}
+
+function rankHTML(
+  item,
+  position,
+  maximum
+){
+
+  return `
+
+    <div
+      class="rank-item ${
+        position===1
+          ? "top1"
+          : ""
+      }">
+
+      <div class="rank-pos">
+        ${position}
+      </div>
+
+      <div class="rank-name">
+        ${item.name}
+      </div>
+
+      <div class="rank-score">
+        ${item.total}/${maximum}
+      </div>
+
+    </div>
+  `;
+
+}
+
+function renderRankings(){
+
+  const council =
+    councilRanking();
+
+  const technical =
+    technicalRanking();
+
+  document
+    .getElementById(
+      "councilRanking"
+    )
+    .innerHTML =
+      council
+        .map(
+          (
+            item,
+            index
+          ) =>
+            rankHTML(
+              item,
+              index+1,
+              selectedCriteria.length
+            )
+        )
+        .join("");
+
+  document
+    .getElementById(
+      "technicalRanking"
+    )
+    .innerHTML =
+      technical
+        .map(
+          (
+            item,
+            index
+          ) =>
+            rankHTML(
+              item,
+              index+1,
+              selectedCriteria.length
+            )
+        )
+        .join("");
+
+  renderFinalSelect();
+
+}
+
+function renderFinalSelect(){
+
+  const select =
+    document.getElementById(
+      "finalProject"
+    );
+
+  const saved =
+    localStorage.getItem(
+      prefix+"final"
+    );
+
+  select.innerHTML =
+
+    '<option value="">Selecione</option>'
+
+    +
+
+    proposals
+      .map(
+        (
+          proposal,
+          index
+        )=>`
+
+          <option value="${index}">
+            ${proposal.name}
+          </option>
+        `
+      )
+      .join("");
+
+  select.value =
+    saved
+    ||
+    String(
+      councilRanking()[0].index
+    );
+
+  select.onchange =
+    ()=>{
+
+      localStorage.setItem(
+        prefix+"final",
+        select.value
+      );
+
+    };
+
+}
+
+document
+  .getElementById(
+    "registerFinal"
+  )
+  .onclick =
+    ()=>{
+
+      const value =
+        document
+          .getElementById(
+            "finalProject"
+          )
+          .value;
+
+      const output =
+        document
+          .getElementById(
+            "finalResult"
+          );
+
+      if(
+        value===""
+      ){
+
+        output.className =
+          "final-result show";
+
+        output.style.background =
+          "#f8e8e6";
+
+        output.textContent =
+          "Selecione uma proposta.";
+
+        return;
+
+      }
+
+      output.className =
+        "final-result show";
+
+      output.style.background =
+        "#eef7f1";
+
+      output.innerHTML = `
+
+        <strong>
+          Decisão final:
+        </strong>
+
+        ${
+          proposals[
+            Number(value)
+          ].name
+        }
+
+        receberá o PSA
+        para apoiar a conversão em RPPN.
+      `;
+
+    };
+
+const slides = [
+  ...document
+    .querySelectorAll(
+      ".slide"
+    )
+];
+
+let current = 0;
+
+function showSlide(
+  index
+){
+
+  const planningIndex =
+    slides.indexOf(
+      document.getElementById(
+        "planningSlide"
+      )
+    );
+
+  if(
+    index>planningIndex
+    &&
+    !confirmed
+  ){
+
+    index =
+      planningIndex;
+
+    alert(
+      "Consolide a votação antes de avançar."
+    );
+
+  }
+
+  current =
+    Math.max(
+      0,
+      Math.min(
+        slides.length-1,
+        index
+      )
+    );
+
+  slides.forEach(
+    (
+      slide,
+      slideIndex
+    )=>{
+
+      slide.classList.toggle(
+        "active",
+        slideIndex===current
+      );
+
+    }
+  );
+
+  document
+    .getElementById(
+      "slideCounter"
+    )
+    .textContent =
+      `${current+1} / ${slides.length}`;
+
+  updateAll();
+
+}
+
+document
+  .getElementById(
+    "prevBtn"
+  )
+  .onclick =
+    ()=>showSlide(
+      current-1
+    );
+
+document
+  .getElementById(
+    "nextBtn"
+  )
+  .onclick =
+    ()=>showSlide(
+      current+1
+    );
+
+document
+  .getElementById(
+    "consolidatePlan"
+  )
+  .onclick =
+    consolidate;
+
+document
+  .getElementById(
+    "clearBtn"
+  )
+  .onclick =
+    ()=>{
+
+      if(
+        !confirm(
+          "Apagar todas as decisões registradas?"
+        )
+      ){
+        return;
+      }
+
+      Object
+        .keys(
+          localStorage
+        )
+        .filter(
+          key =>
+            key.startsWith(
+              prefix
+            )
+        )
+        .forEach(
+          key =>
+            localStorage.removeItem(
+              key
+            )
+        );
+
+      location.reload();
+
+    };
+
+function updateAll(){
+
+  renderTallies();
+
+  renderTechnicalTable();
+
+  renderTabs();
+
+  renderCandidate();
+
+  renderRankings();
+
+}
+
+renderCriterionCards();
+
+renderVoters();
+
+renderTallies();
+
+renderTechnicalTable();
+
+renderTabs();
+
+renderCandidate();
+
+renderRankings();
+
+showSlide(0);
+
+</script>
+
+</body>
+</html>
